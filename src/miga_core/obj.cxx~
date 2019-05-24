@@ -1,0 +1,42 @@
+#include "object.h"
+#include "utils.h"
+using namespace noname;
+
+Object::Object(){
+    
+}
+const string Object::getClassName() const{
+    return "Object";
+}
+void Object::onMessage(const string msg, const vector<BaseObject *> par){
+    App::MGout()<<"WARN: Object recevied a msg: "<<msg<<endl;
+}
+void Object::retain(Ref &r){
+    this->refList.push_back(&r);
+}
+void Object::release(const Ref &r){
+    auto it = find(this->refList.begin(), this->refList.end(), &r);
+    
+    if(it == this->refList.end()){
+        App::MGcrash()<<"THIS SHOULD NOT HAPPEN--Cannot release- ref "<<&r<<" is not in refList."<<endl;
+    }
+
+    this->refList.erase(it);
+}
+void Object::retain(const Ref &r){
+    this->refList.push_back(&r);
+}
+void Object::setNick(const string s){
+    this->nick = s;
+}
+const string Object::getNick() const{
+    return this->nick;
+}
+const int Object::getId() const{
+    return this->ID;
+}
+Object::~Object(){
+    for(auto *e : this->refList){
+        e->onTargetObjDie(*this);
+    }
+}

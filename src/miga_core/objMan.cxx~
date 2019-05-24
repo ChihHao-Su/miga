@@ -1,0 +1,21 @@
+#include "objMan.h"
+#include "utils.h"
+using namespace noname;
+
+ObjMan::ObjMan(){
+    CA.MGout<<"WARN: ObjMan CREATING!"<<endl;
+}
+const Obj& getObj(const int ID){
+    
+
+}
+int ObjMan::regObj(Obj& obj){
+
+}
+void ObjMan::delObj(const int ID){
+
+}
+ObjMan::~ObjMan(){
+    CA.
+
+}

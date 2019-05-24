@@ -1,0 +1,32 @@
+#pragma once
+
+namespace noname{
+class Object : public BaseObject {
+public:
+    Object();
+    virtual string getClassName() const override;
+    virtual void onMessage(const string msg, const vector<BaseObject *> par) override;
+    void retain();
+    void release();
+
+    void setAutoRelease();
+    void unsetAutoRelease();
+    void setNick(const string &s);
+    const string &getNick() const;
+    const int getId() const;
+
+    virtual ~Object();
+
+
+private:
+    string nick;
+    bool isAutoRelease;
+    int refNum;
+    int ID;
+
+
+deleted:
+    Object(const Object &) = delete;
+
+};
+}

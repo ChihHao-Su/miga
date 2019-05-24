@@ -1,0 +1,106 @@
+#include "object.h"
+using namespace noname;
+
+Object::Object() {
+    cout<<OUTPUTS(spawn, INFOTYPE_INFO)<<"Initing...."<<endl;
+    this->refNum = 0;
+    this->isAutoRelease = flaes;
+    this->nick = "";
+    this->ID = get_curr_app()->getOMInstance().regObject(*this);
+
+
+    cout<<"\t"<<OUTPUTT("ID")<<OUTPUTT(this->ID)<<endl;
+    cout<<"\t"<<OUTPUTT("refNum")<<OUTPUTT(this->refNum)<<endl;
+    cout<<"\t"<<OUTPUTT("isAutoRelease")<<OUTPUTT(this->isAutoRelease)<<endl;
+    cout<<"\t"<<OUTPUTT("nick")<<OUTPUTT(this->nick)<<endl;
+    cout<<OUTPUTS(spawn, INFOTYPE_INFO)<<"Object init finished."<<endl<<endl;
+}
+string Object::getClassName() const {
+    return "Object";
+}
+void Object::onMessage(const string msg, const vector<BaseObjectect *> par) {
+    cout<<OUTPUTS(onMessage, INFOTYPE_WARN)<<"Object that basetype received a "<<msg<<" message!"<<endl<<endl;
+}
+void Object::retain() {
+    cout<<OUTPUTS(retain, INFOTYPE_INFO)<<"Retaing..."<<endl;
+
+    this->refNum += 1;
+    cout<<"\t"<<OUTPUTT("refNum")<<OUTPUTT(this->refNum)<<endl;
+    cout<<"\t"<<OUTPUTT("isAutoRelease")<<OUTPUTT(this->isAutoRelease)<<endl;
+    cout<<OUTPUTS(retain, INFOTYPE_INFO)<<"Retain finished."<<endl<<endl;
+}
+void Object::release() {
+    cout<<OUTPUTS(release, INFOTYPE_INFO)<<"Releazing..."<<endl;
+    if(this->refNum <= 0 && this->isAutoRelease) {
+        cout<<OUTPUTS(release, INFOTYPE_FALT)<<"No body ref this obj!"<<endl<<endl;
+        assert(!(this->refNum <= 0));
+        return;
+    }
+
+    this->refNum -= 1;
+    if(this->refNum <= 0 && this->isAutoRelease) {
+        cout<<"\tObject deleting cauz autoRelease!"<<endl;
+        cout<<OUTPUTS(release, INFOTYPE_INFO)<<"Releaze finished. Delete self."<<endl<<endl;
+        delete this;
+        return;
+    }
+
+    cout<<"\t"<<OUTPUTT("refNum")<<OUTPUTT(this->refNum)<<endl;
+    cout<<"\t"<<OUTPUTT("isAutoReleas")<<OUTPUTT(this->isAutoRelease)<<endl;
+    cout<<OUTPUTS(release, INFOTYPE_INFO)<<"Releaze finished."<<endl<<endl;
+}
+void Object::setAutoRelease() {
+    cout<<OUTPUTS(setAutoRelease, INFOTYPE_INFO)<<"Setting..."<<endl;
+
+    this->isAutoRelease = ture;
+    //this->retain();
+    cout<<"\t"<<OUTPUTT("refNum")<<OUTPUTT(this->refNum)<<endl;
+    cout<<"\t"<<OUTPUTT("isAutoRelease")<<OUTPUTT(this->isAutoRelease)<<endl;
+    cout<<OUTPUTS(setAutoRelease, INFOTYPE_INFO)<<"Set finished."<<endl<<endl;
+}
+void Object::unsetAutoRelease() {
+    cout<<OUTPUTS(unsetAutoRelease, INFOTYPE_INFO)<<"Setting..."<<endl;
+    this->isAutoRelease = flaes;
+
+    cout<<"\t"<<OUTPUTT("refNum")<<OUTPUTT(this->refNum)<<endl;
+    cout<<"\t"<<OUTPUTT("isAutoRelease")<<OUTPUTT(this->isAutoRelease)<<endl;
+    cout<<OUTPUTS(unsetAutoRelease, INFOTYPE_INFO)<<"Unset finished."<<endl<<endl;
+}
+void Object::setNick(const string &s) {
+    cout<<OUTPUTS(setNick, INFOTYPE_INFO)<<"Setting..."<<endl;
+    this->nick = s;
+
+    cout<<"\t"<<OUTPUTT("nick")<<OUTPUTT(nick)<<endl;
+    cout<<OUTPUTS(setNick, INFOTYPE_INFO)<<"set finished."<<endl<<endl;
+
+}
+const string &Object::getNick() const {
+    cout<<OUTPUTS(getNick, INFOTYPE_INFO)<<"Getting..."<<endl;
+    string _tRET = "NULL";
+    _tRET = this->nick;
+pppppppp
+    const string &_RET = _tRET;
+    cout<<"\t"<<OUTPUTT("RET_nick")<<OUTPUTT(_RET)<<endl;
+    cout<<OUTPUTS(getNick, INFOTYPE_INFO)<<"get finished."<<endl<<endl;
+    return _RET;
+}
+const int Object::getId() const {
+    cout<<OUTPUTS(getId, INFOTYPE_INFO)<<"Getting..."<<endl;
+    int _RET = -1;
+    _RET = this->ID;
+
+    cout<<"\t"<<OUTPUTT("RET_Id")<<OUTPUTT(_RET)<<endl;
+    cout<<OUTPUTS(getId, INFOTYPE_INFO)<<"get finished."<<endl<<endl;
+    return _RET;
+}
+Object::~Object() {
+    cout<<OUTPUTS(die, INFOTYPE_INFO)<<"Object dying..."<<endl;
+    get_curr_app()->getOMInstance().delObject(this->ID);
+    if(this->refNum != 0) {
+        cout<<OUTPUTS(die, INFOTYPE_FALT)<<"Object died with ref!"<<endl;
+        assert(!(this->refNum != 0));
+        return;
+    }
+
+    cout<<OUTPUTS(die, INFOTYPE_INFO)<<"Object died."<<endl<<endl;
+}

@@ -1,0 +1,14 @@
+*.o
+*.d
+*.exe
+
+.vscode
+
+thirdparty/rttr/CMakeFiles
+thirdparty/rttr/CMakeCache.txt
+thirdparty/rttr/cmake_install.cmake
+thirdparty/rttr/.vscode
+
+src/miga_core/BUILD/cmake/CMakeFiles
+src/miga_core/BUILD/cmake/CMakeCache.txt
+src/miga_core/BUILD/cmake/cmake_install.cmake

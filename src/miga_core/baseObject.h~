@@ -1,0 +1,17 @@
+#pragma once
+#include <string>
+#include <vector>
+using std::vector;
+using std::string;
+
+namespace noname{
+class BaseObject
+{
+public:
+    BaseObject();
+    virtual string getClassName() const;
+    virtual void onMessage(const string msg, const vector<BaseObject *> par);
+    static void sendMessage(BaseObject &o,const string msg, const vector<BasicObj *> par);
+    virtual ~BaseObject();
+};
+}

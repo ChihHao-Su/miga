@@ -1,0 +1,20 @@
+#include "baseObject.h"
+using namespace noname;
+
+BaseObject::BaseObject() {
+
+}
+string BaseObject::getClassName() const {
+	return "BaseObject";
+};
+void BaseObject::onMessage(const string msg, const vector<BaseObject *> par) {
+
+}
+void BaseObject::sendMessage(BaseObject &o,const string msg, const vector<BaseObject *> par) {
+	o.onMessage(msg, par);
+}
+BaseObject::~BaseObject() {
+
+}
+
+

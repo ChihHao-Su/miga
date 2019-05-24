@@ -1,0 +1,22 @@
+#pragma once
+
+namespace noname{
+class ObjMan
+{
+public:
+    ObjMan();
+    friend class Obj;
+    const Obj& getObj(const int ID);
+    ~ObjManager();
+
+
+private:
+    string nick;
+    int regObj(Obj& obj);//returns ID, User cannot call
+    void delObj(const int ID);//User cannot call
+
+    map<int, Obj *> objPool;
+    int next_ID;
+
+};
+}
